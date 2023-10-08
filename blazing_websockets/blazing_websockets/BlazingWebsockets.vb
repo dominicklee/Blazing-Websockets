@@ -259,10 +259,8 @@ Public Class BlazingWebsockets
                                             'Invoke callback
                                             callbacks.UpdateServerInterface(clientTransfer(lastClientID))
                                         End If
-                                    ElseIf receivedMsg = "TransferSuccessful" Then
-                                        'Great, lets request to close the connection
-                                        'Await Task.Delay(1000)
-                                        'Await client.CloseAsync(WebSocketCloseStatus.NormalClosure, "Closing", CancellationToken.None)
+                                    ElseIf receivedMsg = "StatusCheck" Then
+                                        Await ServerSendString(socket, "Ready")
                                     Else
                                         'Invoke callback
                                         callbacks.ServerIncomingMsg(receivedMsg)
@@ -685,6 +683,13 @@ Public Class BlazingWebsockets
             End While
             Console.WriteLine("Client connection closed")
 
+        Catch wsEx As WebSocketException
+            If wsEx.WebSocketErrorCode = WebSocketError.Success OrElse wsEx.WebSocketErrorCode = WebSocketError.ConnectionClosedPrematurely Then
+                callbacks.ClientIncomingMsg("Server disconnected the connection")
+            Else
+                ' Handle other WebSocket exceptions here, if needed
+                Console.WriteLine($"Websocket Ex: {wsEx.WebSocketErrorCode.ToString }")
+            End If
         Catch ex As Exception
             ' Handle exception (for instance, if server is offline)
             MsgBox("An error occurred: " + ex.Message)
