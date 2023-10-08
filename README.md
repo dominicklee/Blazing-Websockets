@@ -9,33 +9,52 @@ Make sure to have the `BlazingWebsockets` file in your VB.NET program. Then incl
 
 ```vbnet
 Imports FileWebsockets.BlazingWebsockets
-Private websockets As BlazingWebsockets
 ```
 
-Now implement the interfaces to attach the callbacks to your code:
+Now implement the interfaces to attach the callbacks to your code. You'll want to rate limit your UI updates as shown, so that the form doesn't freeze up:
 ```vbnet
 Implements IBlazingWebsocketsCallbacks
+Private websockets As BlazingWebsockets
+
+Dim lastUpdateServer As DateTime = DateTime.MinValue
+Dim lastUpdateClient As DateTime = DateTime.MinValue
 
 Public Sub UpdateServerInterface(details As TransferInfo) Implements IBlazingWebsocketsCallbacks.UpdateServerInterface
-    Dim rawPercent As Double = (details.bytesCurrent / details.bytesTotal) * 100
-    Dim percent As Integer = CInt(Math.Max(0, Math.Min(100, rawPercent)))   'constrain between 0-100
-    Dim humanRecvBytes As String = websockets.BytesToString(details.bytesCurrent)
-    Dim humanTotalFileSize As String = websockets.BytesToString(details.bytesTotal)
+    Me.Invoke(Sub()
+                  Dim rawPercent As Double = (details.bytesCurrent / details.bytesTotal) * 100
+                  Dim percent As Integer = CInt(Math.Max(0, Math.Min(100, rawPercent)))   'constrain between 0-100
+                  ProgressBar1.Value = percent
 
-    ProgressBar1.Value = percent
-    lblServerProgress.Text = percent.ToString & "% (" & humanRecvBytes & " of " & humanTotalFileSize & ")"
-    lblServerStatus.Text = details.status
+                  Dim now = DateTime.Now
+                  If (now - lastUpdateServer).TotalMilliseconds > 300 Or percent > 98 Then
+                      Dim humanRecvBytes As String = websockets.BytesToString(details.bytesCurrent)
+                      Dim humanTotalFileSize As String = websockets.BytesToString(details.bytesTotal)
+                      lblServerProgress.Text = percent.ToString & "% (" & humanRecvBytes & " of " & humanTotalFileSize & ")"
+                      lblServerStatus.Text = details.status
+                      Me.Refresh()
+                      lastUpdateServer = now
+                  End If
+
+              End Sub)
 End Sub
 
 Public Sub UpdateClientInterface(details As TransferInfo) Implements IBlazingWebsocketsCallbacks.UpdateClientInterface
-    Dim rawPercent As Double = (details.bytesCurrent / details.bytesTotal) * 100
-    Dim percent As Integer = CInt(Math.Max(0, Math.Min(100, rawPercent)))   'constrain between 0-100
-    Dim humanRecvBytes As String = websockets.BytesToString(details.bytesCurrent)
-    Dim humanTotalFileSize As String = websockets.BytesToString(details.bytesTotal)
+    Me.Invoke(Sub()
+                  Dim rawPercent As Double = (details.bytesCurrent / details.bytesTotal) * 100
+                  Dim percent As Integer = CInt(Math.Max(0, Math.Min(100, rawPercent)))   'constrain between 0-100
+                  ProgressBar2.Value = percent
 
-    ProgressBar2.Value = percent
-    lblClientProgress.Text = percent.ToString & "% (" & humanRecvBytes & " of " & humanTotalFileSize & ")"
-    lblClientStatus.Text = details.status
+                  Dim now = DateTime.Now
+                  If (now - lastUpdateClient).TotalMilliseconds > 500 Or percent > 98 Then
+                      Dim humanRecvBytes As String = websockets.BytesToString(details.bytesCurrent)
+                      Dim humanTotalFileSize As String = websockets.BytesToString(details.bytesTotal)
+                      lblClientProgress.Text = percent.ToString & "% (" & humanRecvBytes & " of " & humanTotalFileSize & ")"
+                      lblClientStatus.Text = details.status
+                      Me.Refresh()
+                      lastUpdateClient = now
+                  End If
+
+              End Sub)
 End Sub
 
 Public Sub ServerIncomingMsg(msg As String) Implements IBlazingWebsocketsCallbacks.ServerIncomingMsg
