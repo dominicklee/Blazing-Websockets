@@ -1,0 +1,16 @@
+C:\Users\Dominick\Downloads\FileWebsockets\FileWebsockets\bin\Debug\FileWebsockets.exe.config
+C:\Users\Dominick\Downloads\FileWebsockets\FileWebsockets\bin\Debug\FileWebsockets.exe
+C:\Users\Dominick\Downloads\FileWebsockets\FileWebsockets\bin\Debug\FileWebsockets.pdb
+C:\Users\Dominick\Downloads\FileWebsockets\FileWebsockets\bin\Debug\FileWebsockets.xml
+C:\Users\Dominick\Downloads\FileWebsockets\FileWebsockets\bin\Debug\Newtonsoft.Json.dll
+C:\Users\Dominick\Downloads\FileWebsockets\FileWebsockets\bin\Debug\System.Net.WebSockets.dll
+C:\Users\Dominick\Downloads\FileWebsockets\FileWebsockets\bin\Debug\Newtonsoft.Json.xml
+C:\Users\Dominick\Downloads\FileWebsockets\FileWebsockets\obj\Debug\FileWebsockets.vbprojAssemblyReference.cache
+C:\Users\Dominick\Downloads\FileWebsockets\FileWebsockets\obj\Debug\FileWebsockets.Form1.resources
+C:\Users\Dominick\Downloads\FileWebsockets\FileWebsockets\obj\Debug\FileWebsockets.Resources.resources
+C:\Users\Dominick\Downloads\FileWebsockets\FileWebsockets\obj\Debug\FileWebsockets.vbproj.GenerateResource.cache
+C:\Users\Dominick\Downloads\FileWebsockets\FileWebsockets\obj\Debug\FileWebsockets.vbproj.CoreCompileInputs.cache
+C:\Users\Dominick\Downloads\FileWebsockets\FileWebsockets\obj\Debug\FileWebsockets.vbproj.CopyComplete
+C:\Users\Dominick\Downloads\FileWebsockets\FileWebsockets\obj\Debug\FileWebsockets.exe
+C:\Users\Dominick\Downloads\FileWebsockets\FileWebsockets\obj\Debug\FileWebsockets.xml
+C:\Users\Dominick\Downloads\FileWebsockets\FileWebsockets\obj\Debug\FileWebsockets.pdb
